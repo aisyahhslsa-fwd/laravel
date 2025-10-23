@@ -1,25 +1,24 @@
-<?php
+// app/Http/Controllers/BookController.php
 
-namespace App\Http\Controllers;
-
-use App\Models\Book; // Import Model Book
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Menampilkan daftar semua buku dengan informasi penulis.
-     */
+    // Mengambil semua data
     public function index()
     {
-        // 1. Mengambil data semua buku dari database.
-        //    'with('author')' digunakan untuk Eager Loading,
-        //    yang mengambil data Author terkait dalam satu query tambahan,
-        //    sehingga menghindari N+1 problem.
-        $books = Book::with('author')->get(); 
-
-        // 2. Mengirim data buku ke View.
-        //    'books.index' merujuk ke file: resources/views/books/index.blade.php
-        return view('books.index', compact('books'));
+        $books = Book::all(); // Ambil semua data dari model
+        // Kunci: Kembalikan respons JSON
+        return response()->json($books, 200); 
     }
+
+    // Mengambil data tunggal
+    public function show(Book $book)
+    {
+        // Kunci: Kembalikan respons JSON
+        return response()->json($book, 200);
+    }
+    
+    // ... metode store, update, destroy lainnya
 }
